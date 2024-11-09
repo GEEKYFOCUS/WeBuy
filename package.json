@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon server.js",
     "dev": "nodemon server.js",
-    "start:prod": "SET NODE_ENV=production&nodemon server.js"
+    "start:prod": "SET NODE_ENV=production&nodemon server.js",
+    "start:prodRender": "NODE_ENV=production nodemon server.js"
   },
   "author": "geekyfocus",
   "license": "ISC",
