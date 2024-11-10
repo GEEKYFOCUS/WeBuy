@@ -16,7 +16,10 @@ const handleValidationErrorInDB = (err) => {
   return new AppError(message, 400);
 };
 const handleJsonWebTokenError = (err) => {
-  return new AppError("Invalid token, Please provide a valid token", 401);
+  return new AppError(
+    "Invalid token, Please provide a valid token, Please login again !",
+    401
+  );
 };
 const handleTokenExpiredError = (err) => {
   return new AppError("Token expired. Please login again ", 401);
@@ -34,8 +37,10 @@ const sendErrorDev = (err, req, res) => {
 };
 
 const sendErrorProd = (err, req, res, next) => {
+  console.log(req, "this is the original url");
   if (req.originalUrl.startsWith("/api")) {
     // isOperational Error: truted Error send message to the client
+
     if (err.isOperational) {
       return res.status(err.statusCode).json({
         status: err.status,
@@ -51,7 +56,8 @@ const sendErrorProd = (err, req, res, next) => {
 };
 
 module.exports = (error, req, res, next) => {
-  console.log(error.stack);
+  // console.log(error.stack);
+  console.log(error, " 🔥😥🔥😥");
   error.statusCode = error.statusCode || 500;
   error.status = error.status || "error";
 
@@ -63,11 +69,12 @@ module.exports = (error, req, res, next) => {
   } else if (process.env.NODE_ENV === "production") {
     let err = { ...error };
     err.message = error.message;
-    if (err.name === "CastEror") err = handleCastErrorInDB(err);
-    if (err.code === E11000) err = handleDuplicateErrorInDB(err);
+    console.log(error.message, "This is the error message in production");
+    if (err.name === "CastError") err = handleCastErrorInDB(err);
+    if (err.code === 11000) err = handleDuplicateErrorInDB(err);
     if (err.name === "ValidationError") err = handleValidationErrorInDB(err);
     if (err.name === "JsonWebTokenError") err = handleJsonWebTokenError(err);
     if (err.name === "TokenExpiredError") err = handleTokenExpiredError(err);
-    sendErrorProd(err);
+    sendErrorProd(err, req, res, next);
   }
 };

@@ -55,7 +55,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     // zohomail
     const url = `${req.protocol}://${req.get("host")}/api/v1/users/verifyUser/${token}`;
     await new Email(newUser, url).sendVerificationEmail();
-    
+
     console.log("token sent");
     res.status(200).json({
       status: "success",
@@ -366,7 +366,7 @@ exports.verifyUser = catchAsync(async (req, res, next) => {
 
 exports.resendVerificationToken = catchAsync(async (req, res, next) => {
   const { email } = req.body;
-  user = await User.findOne({ email });
+  const user = await User.findOne({ email });
   if (!user) return next("No user with that email address found", 404);
 
   console.log(user);

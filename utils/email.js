@@ -12,7 +12,8 @@ module.exports = class Email {
   newTransport() {
     if (process.env.NODE_ENV === "production") {
       const transporter = nodemailer.createTransport({
-        service: "gmail",
+        service: "smtp.gmail.com",
+        port: 587,
         auth: {
           user: process.env.EMAIL_FROM, // Your Gmail email
           pass: process.env.EMAIL_APP_PASSWORD, // App password generated from Google
