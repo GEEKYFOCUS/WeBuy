@@ -11,7 +11,7 @@ const handleDuplicateErrorInDB = (err) => {
   return new AppError(message, 400);
 };
 const handleValidationErrorInDB = (err) => {
-  const error = Object.value(err.error).map((el) => el.message);
+  const error = Object.values(err.errors).map((el) => el.message);
   const message = `Validation failed: ${error.join(". ")} .Please provide a correct data`;
   return new AppError(message, 400);
 };

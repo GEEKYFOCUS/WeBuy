@@ -7,6 +7,7 @@ const AppError = require("./utils/appError");
 const hpp = require("hpp");
 const morgan = require("morgan");
 const xss = require("xss-clean");
+const compression = require("compression");
 const globalErrorHandler = require("./controllers/errorController");
 const userRoutes = require("./routes/userRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
@@ -15,6 +16,7 @@ const orderRoutes = require("./routes/orderRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const viewRoutes = require("./routes/viewRoutes");
+
 const pug = require("pug");
 // initialize  express app
 
@@ -46,6 +48,7 @@ app.use(mongoSanitizer());
 // Data Sanitization against Sxss
 app.use(xss());
 
+app.use(compression());
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
