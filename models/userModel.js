@@ -125,7 +125,7 @@ userSchema.methods.checkIfPasswordIsCorrect = async function (
 
 userSchema.methods.changedPasswordAfter = function (JWTtimestamp) {
   if (this.passwordChangedAt) {
-    const changeTimeStamp = parse(this.passwordChangedAt.getTime() / 1000);
+    const changeTimeStamp = parseInt(this.passwordChangedAt.getTime() / 1000);
 
     return JWTtimestamp < changeTimeStamp;
   }
@@ -154,7 +154,7 @@ userSchema.methods.createVerificationToken = function () {
     .digest("hex");
 
   this.verificicationTokenExpires = Date.now() + 10 * (60 * 1000);
-  this.verificationToken = Date.now() + 10 * (60 * 1000);
+
   return _verificationToken;
 };
 

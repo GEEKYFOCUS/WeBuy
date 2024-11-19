@@ -12,14 +12,15 @@ module.exports = class Email {
   newTransport() {
     if (process.env.NODE_ENV === "production") {
       const transporter = nodemailer.createTransport({
-        service: "smtp.gmail.com",
-        port: 587,
+        service: "gmail",
+        port: 465,
         auth: {
           user: process.env.EMAIL_FROM, // Your Gmail email
           pass: process.env.EMAIL_APP_PASSWORD, // App password generated from Google
         },
       });
       console.log(transporter);
+      return transporter;
     }
     // 267f57c42e85ed7d6ab73212ae57b8e22f260aae
     // 784975b6-99bf48ac
